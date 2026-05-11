@@ -1,7 +1,6 @@
 package com.sivebo.ms_sucursales.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.sivebo.ms_sucursales.service.SucursalService;
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
@@ -20,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
-
+@Slf4j
 @RestController
 @RequestMapping("api/v1/sucursales")
 @RequiredArgsConstructor
@@ -43,15 +44,22 @@ public class SucursalController {
         }
 
         @GetMapping("/search")
-        public ResponseEntity<?> getByAtribute(@RequestParam Map<String, String> allParams){
-                String atribute = allParams.getOrDefault("nombre", allParams.get("idComuna"));
-            return switch (atribute) {
-                case "nombre" -> sucursalService.getByNombre(allParams.get("nombre"))
-                        .map(ResponseEntity::ok)
-                        .orElse(ResponseEntity.notFound().build());
-                case "idComuna" -> ResponseEntity.ok(sucursalService.getByComunaId(Long.valueOf(allParams.get("idComuna"))));
-                default -> ResponseEntity.badRequest().body("Atributo de búsqueda no válido");
-            };
+        public ResponseEntity<?> getByAtribute(
+                @RequestParam(value = "nombre", required = false) String nombre,
+                @RequestParam(value = "idComuna", required = false) String idComuna){
+                if(nombre == null && idComuna == null) {
+                        return ResponseEntity.badRequest().body("Debe proporcionar un atributo de búsqueda valido");
+                }else if(nombre != null && idComuna != null) {
+                        return ResponseEntity.badRequest().body("Solo se permite un atributo de búsqueda a la vez");
+                }else if(nombre != null) {
+                        log.info(">>> Buscando sucursal por nombre: {}", nombre);
+                        return sucursalService.getByNombre(nombre)
+                                .map(ResponseEntity::ok)
+                                .orElse(ResponseEntity.notFound().build());
+                }else {
+                        log.info(">>> Buscando sucursal por idComuna: {}", idComuna);
+                        return ResponseEntity.ok(sucursalService.getByComunaId(Long.valueOf(idComuna)));
+                }
         }
 
         @PostMapping 

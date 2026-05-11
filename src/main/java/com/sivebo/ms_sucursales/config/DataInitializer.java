@@ -25,14 +25,14 @@ public class DataInitializer implements CommandLineRunner{
                 log.info(">>> Cargando sucursales iniciales...");
                 sucursalRepository.save(new Sucursal(
                         null,
-                        "Sucursal Centro",
+                        "Centro",
                         1L,
                         "Av. Central 123",
                         123456789
                 ));
                 sucursalRepository.save(new Sucursal(
                         null,
-                        "Sucursal Norte",
+                        "Norte",
                         2L,
                         "Calle Norte 456",
                         987654321
