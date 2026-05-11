@@ -16,12 +16,12 @@ public class SucursalRequestDTO {
 	String nombre;
 
 	@NotNull(message = "El id de la comuna es obligatorio")
-	Long id_comuna;
+	Long idComuna;
 
 	@NotBlank(message = "La dirección física de la sucursal es obligatoria")
-	String direccion_fisica;
+	String direccionFisica;
 
         @Min(value = 100000000, message = "El teléfono de contacto debe tener al menos 9 dígitos")
         @NotNull(message = "El teléfono de contacto de la sucursal es obligatorio")
-	Integer telefono_contacto;
+	Integer telefonoContacto;
 }

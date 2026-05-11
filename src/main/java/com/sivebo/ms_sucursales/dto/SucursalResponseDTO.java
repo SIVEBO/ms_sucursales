@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SucursalResponseDTO {
         
-        Long id_sucursal;
+        Long id;
         String nombre;
-        Long id_comuna;
-        String direccion_fisica;
-        Integer telefono_contacto;
+        Long idComuna;
+        String direccionFisica;
+        Integer telefonoContacto;
 }

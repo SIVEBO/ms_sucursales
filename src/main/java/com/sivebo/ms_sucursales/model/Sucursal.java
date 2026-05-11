@@ -15,21 +15,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "sucursales")
-public class Sucursales {
+public class Sucursal {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	Long id_sucursal;
+	Long id;
 
 	@Column(name = "nombre", nullable = false, length = 30)
 	String nombre;
 
 	@Column(name = "id_comuna", nullable = false)
-	Long id_comuna;
+	Long idComuna;
 
 	@Column(name = "direccion_fisica", nullable = false, length = 100)
-	String direccion_fisica;
+	String direccionFisica;
 
 	@Column(name = "telefono_contacto", nullable = false)
-	Integer telefono_contacto;
+	Integer telefonoContacto;
 }
