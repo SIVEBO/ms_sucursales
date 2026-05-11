@@ -71,11 +71,11 @@ public class SucursalController {
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> delete(@PathVariable Long id) {
+        public ResponseEntity<String> delete(@PathVariable Long id) {
                 if (sucursalService.delete(id)) {
-                        return ResponseEntity.noContent().build();
+                        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sucursal eliminada");
                 } else {
-                        return ResponseEntity.notFound().build();
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sucursal no encontrada");
                 }
         }
 }

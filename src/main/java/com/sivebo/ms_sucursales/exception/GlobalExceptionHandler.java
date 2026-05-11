@@ -20,7 +20,6 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(errores);
 	}
 
-	// Captura RuntimeException lanzada en MascotaService.validarEspecialidad()
 	@ExceptionHandler(RuntimeException.class)
 	public ResponseEntity<Map<String, String>> handleRuntime(RuntimeException ex) {
 		Map<String, String> error = new HashMap<>();
