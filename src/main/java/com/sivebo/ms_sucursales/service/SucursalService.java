@@ -90,6 +90,7 @@ public class SucursalService {
 
         public Optional<SucursalResponseDTO> update(Long id, SucursalRequestDTO dto) {
                 return sucursalRepository.findById(id).map(sucursal -> {
+                        WebClientUtil.validateMicroService(dto.getIdComuna(), "comuna");
                         sucursal.setNombre(dto.getNombre());
                         sucursal.setIdComuna(dto.getIdComuna());
                         sucursal.setDireccionFisica(dto.getDireccionFisica());
