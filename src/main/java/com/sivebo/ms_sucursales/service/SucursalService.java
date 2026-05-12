@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
@@ -22,7 +23,7 @@ public class SucursalService {
 
         private final SucursalRepository sucursalRepository;
         
-        private final WebClient 
+        private final WebClient webClient;
 
         private SucursalResponseDTO mapToDTO(Sucursal sucursal) {
                 return new SucursalResponseDTO(
@@ -32,6 +33,24 @@ public class SucursalService {
                         sucursal.getDireccionFisica(),
                         sucursal.getTelefonoContacto()
                 );
+        }
+
+        private void validateMicroService(Long id, String name){
+                try {
+			webClient.get()
+				.uri("api/v1/" + name + "/{id}", id)
+				.retrieve()
+				.bodyToMono(String.class)
+				.block();
+		log.info(">>> " + name + " {} validada correctamente (WebCliente)", id);
+
+                } catch (WebClientResponseException.NotFound webException) {
+			throw new RuntimeException(
+				name + "con id " + id + "no existe en el microservicio.");
+                } catch (Exception exception) {
+			throw new RuntimeException(
+				"No se pudo conectar con el microservicio: " + exception.getMessage());
+		}
         }
 
         public List<SucursalResponseDTO> getAll() {
@@ -55,6 +74,7 @@ public class SucursalService {
         }
 
         public SucursalResponseDTO create(SucursalRequestDTO dto) {
+		validateMicroService(dto.getByComunaId(), "comuna");
                 return mapToDTO(sucursalRepository.save(
                         new Sucursal(
                                 null,
