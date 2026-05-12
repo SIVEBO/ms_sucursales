@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
@@ -21,6 +22,8 @@ public class SucursalService {
 
         private final SucursalRepository sucursalRepository;
         
+        private final WebClient 
+
         private SucursalResponseDTO mapToDTO(Sucursal sucursal) {
                 return new SucursalResponseDTO(
                         sucursal.getId(),
