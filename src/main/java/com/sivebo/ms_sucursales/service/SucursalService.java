@@ -5,14 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.SucursalRepository;
-import com.sivebo.ms_sucursales.utils.validateMicroService;
+import com.sivebo.ms_sucursales.utils.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +22,7 @@ public class SucursalService {
 
         private final SucursalRepository sucursalRepository;
         
-        private final WebClient webClient;
+        //private final WebClient webClient;
 
         private SucursalResponseDTO mapToDTO(Sucursal sucursal) {
                 return new SucursalResponseDTO(
@@ -36,6 +34,7 @@ public class SucursalService {
                 );
         }
 
+        /*
         private void validateMicroService(Long id, String name){
                 try {
 			webClient.get()
@@ -54,6 +53,8 @@ public class SucursalService {
 		}
         }
 
+        */
+        
         public List<SucursalResponseDTO> getAll() {
                 return sucursalRepository.findAll()
                         .stream().map(this::mapToDTO)
@@ -75,7 +76,7 @@ public class SucursalService {
         }
 
         public SucursalResponseDTO create(SucursalRequestDTO dto) {
-		validateMicroService(dto.getByComunaId(), "comuna");
+		WebClientUtil.validateMicroService(dto.getIdComuna(), "comuna");
                 return mapToDTO(sucursalRepository.save(
                         new Sucursal(
                                 null,

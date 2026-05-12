@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class WebClientUtil {
 
-	private final WebClient webClient;
+	private static WebClient webClient;
 
-    private void validateMicroService(Long id, String name){
+    public static void validateMicroService(Long id, String name){
                 try {
 			webClient.get()
 				.uri("api/v1/" + name + "/{id}", id)
