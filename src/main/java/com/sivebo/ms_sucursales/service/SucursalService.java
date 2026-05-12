@@ -12,6 +12,7 @@ import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.SucursalRepository;
+import com.sivebo.ms_sucursales.utils.validateMicroService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
