@@ -57,7 +57,8 @@ public class SucursalService {
         
         public List<SucursalResponseDTO> getAll() {
                 return sucursalRepository.findAll()
-                        .stream().map(this::mapToDTO)
+                        .stream()
+                        .map(this::mapToDTO)
                         .collect(Collectors.toList());
         }
 

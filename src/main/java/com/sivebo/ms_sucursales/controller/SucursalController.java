@@ -2,26 +2,25 @@ package com.sivebo.ms_sucursales.controller;
 
 import java.util.List;
 
-import com.sivebo.ms_sucursales.service.SucursalService;
-import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
-import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
+import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.service.SucursalService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.web.bind.annotation.PutMapping;
 
 @Slf4j
 @RestController
@@ -47,6 +46,7 @@ public class SucursalController {
         public ResponseEntity<?> getByAtribute(
                 @RequestParam(value = "nombre", required = false) String nombre,
                 @RequestParam(value = "idComuna", required = false) String idComuna){
+
                 if(nombre == null && idComuna == null) {
                         return ResponseEntity.badRequest().body("Debe proporcionar un atributo de búsqueda valido");
                 }else if(nombre != null && idComuna != null) {
@@ -83,7 +83,7 @@ public class SucursalController {
                 if (sucursalService.delete(id)) {
                         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sucursal eliminada");
                 } else {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sucursal no encontrada");
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sucursal no encontrada o no se pudo eliminar");
                 }
         }
 }
