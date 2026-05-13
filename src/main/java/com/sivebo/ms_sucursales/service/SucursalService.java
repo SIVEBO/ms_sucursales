@@ -22,7 +22,7 @@ public class SucursalService {
 
         private final SucursalRepository sucursalRepository;
         
-        //private final WebClient webClient;
+        private final WebClientUtil webClientUtil;
 
         private SucursalResponseDTO mapToDTO(Sucursal sucursal) {
                 return new SucursalResponseDTO(
@@ -77,7 +77,7 @@ public class SucursalService {
         }
 
         public SucursalResponseDTO create(SucursalRequestDTO dto) {
-		WebClientUtil.validateMicroService(dto.getIdComuna(), "comuna");
+		webClientUtil.validateMicroService(dto.getIdComuna(), "comuna");
                 return mapToDTO(sucursalRepository.save(
                         new Sucursal(
                                 null,
@@ -91,7 +91,7 @@ public class SucursalService {
 
         public Optional<SucursalResponseDTO> update(Long id, SucursalRequestDTO dto) {
                 return sucursalRepository.findById(id).map(sucursal -> {
-                        WebClientUtil.validateMicroService(dto.getIdComuna(), "comuna");
+                        webClientUtil.validateMicroService(dto.getIdComuna(), "comuna");
                         sucursal.setNombre(dto.getNombre());
                         sucursal.setIdComuna(dto.getIdComuna());
                         sucursal.setDireccionFisica(dto.getDireccionFisica());
