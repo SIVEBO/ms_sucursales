@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "ms.comunas.url",
+  "type": "java.lang.String",
+  "description": "URL del microservicio de comunas"
+}]}
