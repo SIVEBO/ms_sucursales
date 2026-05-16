@@ -18,7 +18,7 @@ public class AppConfig {
         }
 
         @Bean
-        public WebClient regionesWebClient(WebClient.Builder builder) {
+        public WebClient comunasWebClient(WebClient.Builder builder) {
                 return builder
                         .baseUrl(comunasBaseUrl)
                         .build();
