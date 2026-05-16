@@ -33,27 +33,6 @@ public class SucursalService {
                         sucursal.getTelefonoContacto()
                 );
         }
-
-        /*
-        private void validateMicroService(Long id, String name){
-                try {
-			webClient.get()
-				.uri("api/v1/" + name + "/{id}", id)
-				.retrieve()
-				.bodyToMono(String.class)
-				.block();
-		log.info(">>> " + name + " {} validada correctamente (WebCliente)", id);
-
-                } catch (WebClientResponseException.NotFound webException) {
-			throw new RuntimeException(
-				name + "con id " + id + "no existe en el microservicio.");
-                } catch (Exception exception) {
-			throw new RuntimeException(
-				"No se pudo conectar con el microservicio: " + exception.getMessage());
-		}
-        }
-
-        */
         
         public List<SucursalResponseDTO> getAll() {
                 return sucursalRepository.findAll()
