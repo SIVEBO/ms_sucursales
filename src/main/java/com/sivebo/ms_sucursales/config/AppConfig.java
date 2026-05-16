@@ -8,10 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class AppConfig {
 
-        @Value("${ms.regiones.url}")
+        @Value("${ms.comunas.url}")
         private String comunasBaseUrl;
         
-
         @Bean
         public WebClient.Builder webClientBuilder() {
                 return WebClient.builder();
