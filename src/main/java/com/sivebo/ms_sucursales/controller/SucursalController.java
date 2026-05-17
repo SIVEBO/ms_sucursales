@@ -1,5 +1,6 @@
 package com.sivebo.ms_sucursales.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -44,21 +45,29 @@ public class SucursalController {
 
         @GetMapping("/search")
         public ResponseEntity<?> getByAtribute(
-                @RequestParam(value = "nombre", required = false) String nombre,
-                @RequestParam(value = "idComuna", required = false) String idComuna){
+                @RequestParam(required = false) String nombre,
+                @RequestParam(required = false) String idComuna){
 
-                if(nombre == null && idComuna == null) {
+                List<String> params = new ArrayList<>(List.of(nombre, idComuna));
+
+                int num_null = 0;
+                for(String value: params){
+                        if(value == null) num_null++;
+                }
+                if(num_null == params.size()) {
                         return ResponseEntity.badRequest().body("Debe proporcionar un atributo de búsqueda valido");
-                }else if(nombre != null && idComuna != null) {
+                }else if(num_null > 1) {
                         return ResponseEntity.badRequest().body("Solo se permite un atributo de búsqueda a la vez");
                 }else if(nombre != null) {
                         log.info(">>> Buscando sucursal por nombre: {}", nombre);
                         return sucursalService.getByNombre(nombre)
                                 .map(ResponseEntity::ok)
                                 .orElse(ResponseEntity.notFound().build());
-                }else {
+                }else if(idComuna != null){
                         log.info(">>> Buscando sucursal por idComuna: {}", idComuna);
                         return ResponseEntity.ok(sucursalService.getByComunaId(Long.valueOf(idComuna)));
+                }else{
+                        return ResponseEntity.internalServerError().body("Error en el URL query");
                 }
         }
 
