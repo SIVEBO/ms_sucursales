@@ -17,8 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.service.SucursalService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +34,21 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("api/v1/sucursales")
 @RequiredArgsConstructor
+@Tag(name="Sucursales", description = "Operaciones relacionadas con las sucursales")
 public class SucursalController {
 
         private final SucursalService sucursalService;
         
         @GetMapping
+        @Operation(summary = "Obtener todas las sucursales registradas", description = "Obtiene una lista de todas las sucursales")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200", description = "Sucursales obtenidas exitosamente",
+                        content = @Content(mediaType = "aplication/json",
+                        schema = @Schema(implementation = Sucursal.class)
+                        )
+                )
+        }
+        )
         public List<SucursalResponseDTO> getAll() {
                 return sucursalService.getAll();
         }
