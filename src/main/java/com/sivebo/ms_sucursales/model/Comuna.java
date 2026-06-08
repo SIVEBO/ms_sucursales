@@ -16,23 +16,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sucursales")
-public class Sucursal {
+@Table(name = "comunas")
+public class Comuna {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	Long id;
+        @Id
+        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        Long id;
 
-	@Column(name = "nombre", nullable = false, length = 30)
-	String nombre;
+        @Column(name = "nombre_comuna", nullable=false, length=30, unique=true)
+        String nombre;
 
-	@ManyToOne
-	@JoinColumn(name = "id_comuna", nullable = false)
-	Comuna comuna;
-
-	@Column(name = "direccion_fisica", nullable = false, length = 100)
-	String direccionFisica;
-
-	@Column(name = "telefono_contacto", nullable = false)
-	Integer telefonoContacto;
+        @ManyToOne
+        @JoinColumn(name = "id_region", nullable=false)
+        Region region;
 }

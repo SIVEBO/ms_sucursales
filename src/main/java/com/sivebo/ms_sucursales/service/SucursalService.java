@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.model.Sucursal;
+import com.sivebo.ms_sucursales.repository.ComunaRepository;
 import com.sivebo.ms_sucursales.repository.SucursalRepository;
-import com.sivebo.ms_sucursales.utils.WebClientUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,17 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 public class SucursalService {
 
         private final SucursalRepository sucursalRepository;
-        
-        private final WebClientUtil webClientUtil;
-
-        @Qualifier("comunasWebClient")
-        private final WebClient comunasWebClient;
+        private final ComunaRepository comunaRepository;
 
         private SucursalResponseDTO mapToDTO(Sucursal sucursal) {
                 return new SucursalResponseDTO(
                         sucursal.getId(),
                         sucursal.getNombre(),   
-                        sucursal.getIdComuna(),
+                        sucursal.getComuna().getId(),
+                        sucursal.getComuna().getNombre(),
                         sucursal.getDireccionFisica(),
                         sucursal.getTelefonoContacto()
                 );
@@ -51,7 +46,7 @@ public class SucursalService {
         }
 
         public List<SucursalResponseDTO> getByComunaId(Long idComuna) {
-                return sucursalRepository.findByIdComuna(idComuna)
+                return sucursalRepository.findByComunaId(idComuna)
                         .stream().map(this::mapToDTO)
                         .collect(Collectors.toList());
         }
@@ -61,12 +56,14 @@ public class SucursalService {
         }
 
         public SucursalResponseDTO create(SucursalRequestDTO dto) {
-		webClientUtil.validateMicroService(dto.getIdComuna(), "comunas", comunasWebClient);
+                var comuna = comunaRepository.findById(dto.getIdComuna())
+                    .orElseThrow(() -> new RuntimeException("Comuna no encontrada"));
+                
                 return mapToDTO(sucursalRepository.save(
                         new Sucursal(
                                 null,
                                 dto.getNombre(),
-                                dto.getIdComuna(),
+                                comuna,
                                 dto.getDireccionFisica(),
                                 dto.getTelefonoContacto()
                         )
@@ -75,9 +72,10 @@ public class SucursalService {
 
         public Optional<SucursalResponseDTO> update(Long id, SucursalRequestDTO dto) {
                 return sucursalRepository.findById(id).map(sucursal -> {
-                        webClientUtil.validateMicroService(dto.getIdComuna(), "comunas", comunasWebClient);
+                        var comuna = comunaRepository.findById(dto.getIdComuna())
+                            .orElseThrow(() -> new RuntimeException("Comuna no encontrada"));
                         sucursal.setNombre(dto.getNombre());
-                        sucursal.setIdComuna(dto.getIdComuna());
+                        sucursal.setComuna(comuna);
                         sucursal.setDireccionFisica(dto.getDireccionFisica());
                         sucursal.setTelefonoContacto(dto.getTelefonoContacto());
                         return mapToDTO(sucursalRepository.save(sucursal));

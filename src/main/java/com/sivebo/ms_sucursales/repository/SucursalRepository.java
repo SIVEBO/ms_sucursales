@@ -9,7 +9,7 @@ import com.sivebo.ms_sucursales.model.Sucursal;
 
 public interface SucursalRepository extends JpaRepository<Sucursal, Long> {
 
-        List<Sucursal> findByIdComuna(Long id_comuna);
+        List<Sucursal> findByComunaId(Long comunaId);
 
         Optional<Sucursal> findByNombre(String nombre);
         
