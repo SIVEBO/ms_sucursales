@@ -34,5 +34,5 @@ public class Sucursal {
 	String direccionFisica;
 
 	@Column(name = "telefono_contacto", nullable = false, unique = true)
-	Integer telefonoContacto;
+	String telefonoContacto;
 }

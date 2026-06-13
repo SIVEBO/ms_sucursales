@@ -105,8 +105,8 @@ public class SucursalController {
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<String> delete(@PathVariable Long id) {
-                if (sucursalService.delete(id)) {
+        public ResponseEntity<String> deleteById(@PathVariable Long id) {
+                if (sucursalService.deleteById(id)) {
                         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sucursal eliminada");
                 } else {
                         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sucursal no encontrada o no se pudo eliminar");

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.exception.EntityNotFoundException;
 import com.sivebo.ms_sucursales.model.Comuna;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.ComunaRepository;
@@ -25,36 +26,36 @@ public class SucursalService extends MapToDTO {
         private final SucursalRepository sucursalRepository;
         private final ComunaRepository comunaRepository;
         
-        public List<SucursalResponseDTO> getAllSucursales() {
+        public List<SucursalResponseDTO> getAll() {
                 return sucursalRepository.findAll()
                         .stream()
                         .map(this::mapSucursalToDTO)
                         .collect(Collectors.toList());
         }
 
-        public Optional<SucursalResponseDTO> getSucursalById(Long id) {
+        public Optional<SucursalResponseDTO> getById(Long id) {
                 return sucursalRepository.findById(id).map(this::mapSucursalToDTO);
         }
 
-        public Optional<SucursalResponseDTO> getSucursalByNombre(String nombre) {
+        public Optional<SucursalResponseDTO> getByNombre(String nombre) {
                 return sucursalRepository.findByNombre(nombre).map(this::mapSucursalToDTO);
         }
 
-        public List<SucursalResponseDTO> getSucursalByComunaId(Long idComuna) {
+        public List<SucursalResponseDTO> getByComunaId(Long idComuna) {
                 return sucursalRepository.findByComunaId(idComuna)
                         .stream().map(this::mapSucursalToDTO)
                         .collect(Collectors.toList());
         }
 
-        public List<SucursalResponseDTO> getSucursalbyComunaNombre(String nombreComuna) {
+        public List<SucursalResponseDTO> getByComunaNombre(String nombreComuna) {
                 return sucursalRepository.findByComunaNombre(nombreComuna)
                         .stream().map(this::mapSucursalToDTO)
                         .collect(Collectors.toList());
         }
 
-        public SucursalResponseDTO createSucursal(SucursalRequestDTO dto) {
+        public SucursalResponseDTO create(SucursalRequestDTO dto) {
                 Comuna comuna = comunaRepository.findByNombre(dto.getNombreComuna())
-                    .orElseThrow(() -> new RuntimeException("Comuna no encontrada"));
+                    .orElseThrow(() -> new EntityNotFoundException("Comuna no encontrada"));
                 
                 return mapSucursalToDTO(sucursalRepository.save(
                         new Sucursal(
@@ -67,10 +68,10 @@ public class SucursalService extends MapToDTO {
                 ));
         }
 
-        public Optional<SucursalResponseDTO> updateSucursal(Long id, SucursalRequestDTO dto) {
+        public Optional<SucursalResponseDTO> update(Long id, SucursalRequestDTO dto) {
                 return sucursalRepository.findById(id).map(sucursal -> {
                 Comuna comuna = comunaRepository.findByNombre(dto.getNombreComuna())
-                    .orElseThrow(() -> new RuntimeException("Comuna no encontrada"));
+                    .orElseThrow(() -> new EntityNotFoundException("Comuna no encontrada"));
                         sucursal.setNombre(dto.getNombre());
                         sucursal.setComuna(comuna);
                         sucursal.setDireccionFisica(dto.getDireccionFisica());
@@ -79,12 +80,12 @@ public class SucursalService extends MapToDTO {
                 });
         }
 
-        public Boolean deleteSucursalById(Long id) {
+        public Boolean deleteById(Long id) {
                 sucursalRepository.deleteById(id);
                 return !sucursalRepository.existsById(id);
         }
 
-        public Boolean deleteSucursalByNombre(String nombre) {
+        public Boolean deleteByNombre(String nombre) {
                 sucursalRepository.deleteByNombre(nombre);
                 return !sucursalRepository.existsByNombre(nombre);
         }

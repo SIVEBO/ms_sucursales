@@ -14,5 +14,5 @@ public class SucursalResponseDTO {
         String nombreComuna;
         String nombreRegion;
         String direccionFisica;
-        Integer telefonoContacto;
+        String telefonoContacto;
 }
