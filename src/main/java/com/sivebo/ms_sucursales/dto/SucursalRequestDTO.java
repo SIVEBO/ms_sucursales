@@ -15,8 +15,8 @@ public class SucursalRequestDTO {
         @NotBlank(message = "El nombre de la sucursal es obligatorio")
 	String nombre;
 
-	@NotNull(message = "El id de la comuna es obligatorio")
-	Long idComuna;
+	@NotNull(message = "El nombre de la comuna es obligatorio")
+	String nombreComuna;
 
 	@NotBlank(message = "La dirección física de la sucursal es obligatoria")
 	String direccionFisica;

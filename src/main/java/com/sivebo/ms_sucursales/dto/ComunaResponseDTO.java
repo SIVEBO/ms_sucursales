@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SucursalResponseDTO {
-        
+public class ComunaResponseDTO {
+
         Long id;
         String nombre;
-        String nombreComuna;
         String nombreRegion;
-        String direccionFisica;
-        Integer telefonoContacto;
 }
