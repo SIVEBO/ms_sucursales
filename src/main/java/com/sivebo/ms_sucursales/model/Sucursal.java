@@ -23,16 +23,16 @@ public class Sucursal {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
 
-	@Column(name = "nombre", nullable = false, length = 30)
+	@Column(name = "nombre", nullable = false, length = 30, unique = true)
 	String nombre;
 
 	@ManyToOne
 	@JoinColumn(name = "id_comuna", nullable = false)
 	Comuna comuna;
 
-	@Column(name = "direccion_fisica", nullable = false, length = 100)
+	@Column(name = "direccion_fisica", nullable = false, length = 100, unique = true)
 	String direccionFisica;
 
-	@Column(name = "telefono_contacto", nullable = false)
+	@Column(name = "telefono_contacto", nullable = false, unique = true)
 	Integer telefonoContacto;
 }
