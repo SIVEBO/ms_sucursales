@@ -41,20 +41,14 @@ public class SucursalService extends MapToDTO {
                 return sucursalRepository.findByNombre(nombre).map(this::mapSucursalToDTO);
         }
 
-        public List<SucursalResponseDTO> getByComunaId(Long idComuna) {
-                return sucursalRepository.findByComunaId(idComuna)
-                        .stream().map(this::mapSucursalToDTO)
-                        .collect(Collectors.toList());
-        }
-
-        public List<SucursalResponseDTO> getByComunaNombre(String nombreComuna) {
+public List<SucursalResponseDTO> getByComunaNombre(String nombreComuna) {
                 return sucursalRepository.findByComunaNombre(nombreComuna)
                         .stream().map(this::mapSucursalToDTO)
                         .collect(Collectors.toList());
         }
 
-        public List<SucursalResponseDTO> getByRegionNombre(String nombreComuna) {
-                return sucursalRepository.findByRegionNombre(nombreComuna)
+        public List<SucursalResponseDTO> getByRegionNombre(String nombreRegion) {
+                return sucursalRepository.findByRegionNombre(nombreRegion)
                         .stream().map(this::mapSucursalToDTO)
                         .collect(Collectors.toList());
         }
@@ -87,8 +81,9 @@ public class SucursalService extends MapToDTO {
         }
 
         public Boolean deleteById(Long id) {
+                if (!sucursalRepository.existsById(id)) return false;
                 sucursalRepository.deleteById(id);
-                return !sucursalRepository.existsById(id);
+                return true;
         }
 
         public Boolean deleteByNombre(String nombre) {

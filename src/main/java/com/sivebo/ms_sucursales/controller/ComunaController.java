@@ -55,10 +55,11 @@ public class ComunaController {
             if (value == null)
                 num_null++;
         }
-        if (num_null != 1) {
-            log.info(" Solo se permite un atributo de búsqueda a la vez pero ingresado {}", (params.size() - num_null));
+        int num_valid_params = params.size() - num_null;
+        if (num_valid_params != 1) {
+            log.info(" Solo se permite un atributo de búsqueda a la vez pero ingresado {}", num_valid_params);
             return ResponseEntity.badRequest().body(
-                    "Solo se permite un atributo de búsqueda a la vez pero ingresado " + (params.size() - num_null));
+                    "Solo se permite un atributo de búsqueda a la vez pero ingresado " + num_valid_params);
         } else if (id != null) {
             log.info(">>> Buscando sucursal por id: {}", id);
             return comunaService.getById(Long.valueOf(id))
