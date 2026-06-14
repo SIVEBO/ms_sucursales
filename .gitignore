@@ -34,3 +34,9 @@ build/
 
 ### Swap Files ###
 *.swp
+
+### Claude ###
+.claude/
+
+### Markdown Notes ###
+*.md

@@ -13,21 +13,26 @@ import com.sivebo.ms_sucursales.utils.MapToDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RegionService extends MapToDTO {
-    
+
         private final RegionRepository regionRepository;
 
-        public List<RegionResponseDTO> getAllRegiones() {
+        public List<RegionResponseDTO> getAll() {
                 return regionRepository.findAll()
                         .stream()
                         .map(this::mapRegionToDTO)
                         .collect(Collectors.toList());
         }
 
-        public Optional<RegionResponseDTO> getRegionById(Long id) {
+        public Optional<RegionResponseDTO> getById(Long id) {
                 return regionRepository.findById(id).map(this::mapRegionToDTO);
+        }
+
+        public Optional<RegionResponseDTO> getByNombre(String nombre) {
+                return regionRepository.findByNombre(nombre).map(this::mapRegionToDTO);
         }
 }
