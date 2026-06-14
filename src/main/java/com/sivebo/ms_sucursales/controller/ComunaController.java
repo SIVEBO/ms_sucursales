@@ -1,6 +1,7 @@
 package com.sivebo.ms_sucursales.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -30,52 +31,56 @@ public class ComunaController {
 
     private final ComunaService comunaService;
 
-        @Operation(summary = "Obtener todas las comunas registradas", description = "Obtiene una lista de todas las comunas")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200", description = "Comunaes obtenidas exitosamente",
-                        content = @Content(mediaType = "application/json",
-                        schema = @Schema(implementation = Comuna.class)
-                        )
-                )
-        }
-        )
+    @Operation(summary = "Obtener todas las comunas registradas", description = "Obtiene una lista de JSON de todas las comunas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comuna.class)))
+    })
     @GetMapping
-        public List<ComunaResponseDTO> getAll() {
-                return comunaService.getAll();
+    public List<ComunaResponseDTO> getAll() {
+        return comunaService.getAll();
+    }
+
+    @Operation(summary = "Obtener todas las comunas registradas por query", description = "Obtiene una lista o unidad de JSON de todas las comunas por query 'search?nombre=*' o 'search?nombreRegion=*'")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comuna.class)))
+    })
+    @GetMapping("/buscar")
+    public ResponseEntity<?> getByAtribute(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String nombreRegion) {
+
+        List<String> params = new ArrayList<>(Arrays.asList(nombre, nombreRegion));
+
+        int num_null = 0;
+        for (String value : params) {
+            if (value == null)
+                num_null++;
         }
-
-        @GetMapping("{id}")
-        public ResponseEntity<ComunaResponseDTO> getById(@PathVariable Long id) {
-                return comunaService.getById(id)
-                        .map(ResponseEntity::ok)
-                        .orElse(ResponseEntity.notFound().build());
+        if (num_null != 1) {
+            log.info(" Solo se permite un atributo de búsqueda a la vez pero ingresado {}", (params.size() - num_null));
+            return ResponseEntity.badRequest().body(
+                    "Solo se permite un atributo de búsqueda a la vez pero ingresado " + (params.size() - num_null));
+        } else if (nombre != null) {
+            log.info(">>> Buscando comuna por nombre: {}", nombre);
+            return comunaService.getByNombre(nombre)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } else if (nombreRegion != null) {
+            log.info(">>> Buscando comuna por nombreRegion: {}", nombreRegion);
+            return ResponseEntity.ok(comunaService.getByRegionNombre(nombreRegion));
         }
+        return ResponseEntity.internalServerError().body("Error en el URL query");
+    }
 
-        @GetMapping("/search")
-        public ResponseEntity<?> getByAtribute(
-                @RequestParam(required = false) String nombre,
-                @RequestParam(required = false) String idRegion){
+    @Operation(summary = "Obtener la comuna registradas por id", description = "Obtiene un JSON de la comuna registrada por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comuna obtenida exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comuna.class)))
+    })
+    @GetMapping("{id}")
+    public ResponseEntity<ComunaResponseDTO> getById(@PathVariable Long id) {
+        return comunaService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-                List<String> params = new ArrayList<>(List.of(nombre, idRegion));
-
-                int num_null = 0;
-                for(String value: params){
-                        if(value == null) num_null++;
-                }
-                if(num_null == params.size()) {
-                        return ResponseEntity.badRequest().body("Debe proporcionar un atributo de búsqueda valido");
-                }else if(num_null > 1) {
-                        return ResponseEntity.badRequest().body("Solo se permite un atributo de búsqueda a la vez");
-                }else if(nombre != null) {
-                        log.info(">>> Buscando comuna por nombre: {}", nombre);
-                        return comunaService.getByNombre(nombre)
-                                .map(ResponseEntity::ok)
-                                .orElse(ResponseEntity.notFound().build());
-                }else if(idRegion != null){
-                        log.info(">>> Buscando comuna por idRegion: {}", idRegion);
-                        return ResponseEntity.ok(comunaService.getByRegionId(Long.valueOf(idRegion)));
-                }else{
-                        return ResponseEntity.internalServerError().body("Error en el URL query");
-                }
-        }
 }
