@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sivebo.ms_sucursales.dto.request.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
-import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.service.SucursalService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,7 +72,7 @@ public class SucursalController {
 
         @Operation(summary = "Obtener todas las sucursales registradas", description = "Obtiene una lista de todas las sucursales")
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Sucursales obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Sucursal.class)))
+                        @ApiResponse(responseCode = "200", description = "Sucursales obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SucursalResponseDTO.class)))
         })
         @GetMapping
         public List<SucursalResponseDTO> getAll() {

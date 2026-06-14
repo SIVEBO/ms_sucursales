@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sivebo.ms_sucursales.dto.response.ComunaResponseDTO;
-import com.sivebo.ms_sucursales.model.Comuna;
 import com.sivebo.ms_sucursales.service.ComunaService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +32,7 @@ public class ComunaController {
 
     @Operation(summary = "Obtener todas las comunas registradas", description = "Obtiene una lista de JSON de todas las comunas")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comuna.class)))
+            @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComunaResponseDTO.class)))
     })
     @GetMapping
     public List<ComunaResponseDTO> getAll() {
@@ -42,7 +41,7 @@ public class ComunaController {
 
     @Operation(summary = "Obtener todas las comunas registradas por query", description = "Obtiene una lista o unidad de JSON de todas las comunas por query 'search?nombre=*' o 'search?nombreRegion=*'")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comuna.class)))
+            @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComunaResponseDTO.class)))
     })
     @GetMapping("/buscar")
     public ResponseEntity<?> getByAtribute(
@@ -74,7 +73,7 @@ public class ComunaController {
 
     @Operation(summary = "Obtener la comuna registradas por id", description = "Obtiene un JSON de la comuna registrada por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Comuna obtenida exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comuna.class)))
+            @ApiResponse(responseCode = "200", description = "Comuna obtenida exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComunaResponseDTO.class)))
     })
     @GetMapping("{id}")
     public ResponseEntity<ComunaResponseDTO> getById(@PathVariable Long id) {
