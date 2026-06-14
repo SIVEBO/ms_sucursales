@@ -43,7 +43,7 @@ public class SucursalController {
         @Operation(summary = "Obtener todas las sucursales registradas", description = "Obtiene una lista de todas las sucursales")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "200", description = "Sucursales obtenidas exitosamente",
-                        content = @Content(mediaType = "aplication/json",
+                        content = @Content(mediaType = "application/json",
                         schema = @Schema(implementation = Sucursal.class)
                         )
                 )

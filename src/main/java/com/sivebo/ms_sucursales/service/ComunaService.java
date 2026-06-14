@@ -20,28 +20,28 @@ public class ComunaService extends MapToDTO {
 
         private final ComunaRepository comunaRepository;
 
-        public List<ComunaResponseDTO> getAllComunas() {
+        public List<ComunaResponseDTO> getAll() {
                 return comunaRepository.findAll()
                         .stream()
                         .map(this::mapComunaToDTO)
                         .collect(Collectors.toList());
         }
 
-        public Optional<ComunaResponseDTO> getComunaById(Long id) {
+        public Optional<ComunaResponseDTO> getById(Long id) {
                 return comunaRepository.findById(id).map(this::mapComunaToDTO);
         }
 
-        public Optional<ComunaResponseDTO> getComunaByNombre(String nombre) {
+        public Optional<ComunaResponseDTO> getByNombre(String nombre) {
                 return comunaRepository.findByNombre(nombre).map(this::mapComunaToDTO);
         }
 
-        public List<ComunaResponseDTO> getComunasByRegionId(Long idRegion) {
+        public List<ComunaResponseDTO> getByRegionId(Long idRegion) {
                 return comunaRepository.findByRegionId(idRegion)
                         .stream().map(this::mapComunaToDTO)
                         .collect(Collectors.toList());
         }
 
-        public List<ComunaResponseDTO> getComunasByRegionNombre(String nombreRegion) {
+        public List<ComunaResponseDTO> getByRegionNombre(String nombreRegion) {
                 return comunaRepository.findByRegionNombre(nombreRegion)
                         .stream().map(this::mapComunaToDTO)
                         .collect(Collectors.toList());
