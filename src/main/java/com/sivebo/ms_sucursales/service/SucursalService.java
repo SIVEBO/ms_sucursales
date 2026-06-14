@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
-import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.dto.request.SucursalRequestDTO;
+import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.exception.EntityNotFoundException;
 import com.sivebo.ms_sucursales.model.Comuna;
 import com.sivebo.ms_sucursales.model.Sucursal;

@@ -1,9 +1,9 @@
 
 package com.sivebo.ms_sucursales.utils;
 
-import com.sivebo.ms_sucursales.dto.ComunaResponseDTO;
-import com.sivebo.ms_sucursales.dto.RegionResponseDTO;
-import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.dto.response.ComunaResponseDTO;
+import com.sivebo.ms_sucursales.dto.response.RegionResponseDTO;
+import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.model.Comuna;
 import com.sivebo.ms_sucursales.model.Region;
 import com.sivebo.ms_sucursales.model.Sucursal;

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.sivebo.ms_sucursales.dto.ComunaResponseDTO;
+import com.sivebo.ms_sucursales.dto.response.ComunaResponseDTO;
 import com.sivebo.ms_sucursales.repository.ComunaRepository;
 import com.sivebo.ms_sucursales.utils.MapToDTO;
 

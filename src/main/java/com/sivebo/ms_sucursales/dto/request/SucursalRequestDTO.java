@@ -1,4 +1,4 @@
-package com.sivebo.ms_sucursales.dto;
+package com.sivebo.ms_sucursales.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sivebo.ms_sucursales.dto.SucursalRequestDTO;
-import com.sivebo.ms_sucursales.dto.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.dto.request.SucursalRequestDTO;
+import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.service.SucursalService;
 
