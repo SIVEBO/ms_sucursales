@@ -39,12 +39,18 @@ public class SucursalController {
 
         private final SucursalService sucursalService;
 
+        @Operation(summary = "Obtener todas las sucursales registradas por query", description = "Obtiene una lista o unidad de JSON de todas las sucursales por query 'search?id=*', 'search?nombre=*' o 'search?region=*'")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "sucursales obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SucursalResponseDTO.class)))
+        })
         @GetMapping("/buscar")
         public ResponseEntity<?> getByAtribute(
+                        @RequestParam(required = false) String id,
                         @RequestParam(required = false) String nombre,
-                        @RequestParam(required = false) String nombreComuna) {
+                        @RequestParam(required = false) String comuna,
+                        @RequestParam(required = false) String region) {
 
-                List<String> params = new ArrayList<>(Arrays.asList(nombre, nombreComuna));
+                List<String> params = new ArrayList<>(Arrays.asList(id, nombre, comuna, region));
 
                 int num_null = 0;
                 for (String value : params) {
@@ -57,14 +63,22 @@ public class SucursalController {
                         return ResponseEntity.badRequest()
                                         .body("Solo se permite un atributo de búsqueda a la vez pero ingresado "
                                                         + (params.size() - num_null));
+                } else if (id != null) {
+                        log.info(">>> Buscando sucursal por id: {}", id);
+                        return sucursalService.getById(Long.valueOf(id))
+                                        .map(ResponseEntity::ok)
+                                        .orElse(ResponseEntity.notFound().build());
                 } else if (nombre != null) {
                         log.info(">>> Buscando sucursal por nombre: {}", nombre);
                         return sucursalService.getByNombre(nombre)
                                         .map(ResponseEntity::ok)
                                         .orElse(ResponseEntity.notFound().build());
-                } else if (nombreComuna != null) {
-                        log.info(">>> Buscando sucursal por nombreComuna: {}", nombreComuna);
-                        return ResponseEntity.ok(sucursalService.getByComunaNombre(nombreComuna));
+                } else if (comuna != null) {
+                        log.info(">>> Buscando sucursal por comuna: {}", comuna);
+                        return ResponseEntity.ok(sucursalService.getByComunaNombre(comuna));
+                } else if (region != null) {
+                        log.info(">>> Buscando sucursal por región: {}", region);
+                        return ResponseEntity.ok(sucursalService.getByRegionNombre(region));
                 }
 
                 return ResponseEntity.internalServerError().body("Error en el URL query");
@@ -77,13 +91,6 @@ public class SucursalController {
         @GetMapping
         public List<SucursalResponseDTO> getAll() {
                 return sucursalService.getAll();
-        }
-
-        @GetMapping("{id}")
-        public ResponseEntity<SucursalResponseDTO> getById(@PathVariable Long id) {
-                return sucursalService.getById(id)
-                                .map(ResponseEntity::ok)
-                                .orElse(ResponseEntity.notFound().build());
         }
 
         @PostMapping

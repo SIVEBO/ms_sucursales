@@ -13,6 +13,8 @@ public interface SucursalRepository extends JpaRepository<Sucursal, Long> {
 
         List<Sucursal> findByComunaNombre(String comunaNombre);
 
+        List<Sucursal> findByRegionNombre(String regionNombre);
+
         Optional<Sucursal> findByNombre(String nombre);
 
         void deleteByNombre(String nombre);
