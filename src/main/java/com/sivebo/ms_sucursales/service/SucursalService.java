@@ -53,6 +53,12 @@ public class SucursalService extends MapToDTO {
                         .collect(Collectors.toList());
         }
 
+        public List<SucursalResponseDTO> getByRegionNombre(String nombreComuna) {
+                return sucursalRepository.findByRegionNombre(nombreComuna)
+                        .stream().map(this::mapSucursalToDTO)
+                        .collect(Collectors.toList());
+        }
+
         public SucursalResponseDTO create(SucursalRequestDTO dto) {
                 Comuna comuna = comunaRepository.findByNombre(dto.getNombreComuna())
                     .orElseThrow(() -> new EntityNotFoundException("Comuna no encontrada"));
