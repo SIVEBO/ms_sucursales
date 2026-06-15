@@ -23,5 +23,5 @@ public interface SucursalRepository extends JpaRepository<Sucursal, Long> {
         void deleteByNombre(String nombre);
 
         Boolean existsByNombre(String nombre);
-        
+
 }

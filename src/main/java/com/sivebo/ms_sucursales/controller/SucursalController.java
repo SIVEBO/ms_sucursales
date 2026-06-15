@@ -59,30 +59,24 @@ public class SucursalController {
                 }
                 int num_valid_params = params.size() - num_null;
                 if (num_valid_params != 1) {
-                        log.info(" Solo se permite un atributo de búsqueda a la vez pero ingresado {}",
+                        log.info("Solo se permite un atributo de búsqueda a la vez pero ingresado {}",
                                         num_valid_params);
                         return ResponseEntity.badRequest()
                                         .body("Solo se permite un atributo de búsqueda a la vez pero ingresado "
                                                         + num_valid_params);
-                } else if (id != null) {
-                        log.info(">>> Buscando sucursal por id: {}", id);
-                        return sucursalService.getById(Long.valueOf(id))
-                                        .map(ResponseEntity::ok)
-                                        .orElse(ResponseEntity.notFound().build());
-                } else if (nombre != null) {
-                        log.info(">>> Buscando sucursal por nombre: {}", nombre);
-                        return sucursalService.getByNombre(nombre)
-                                        .map(ResponseEntity::ok)
-                                        .orElse(ResponseEntity.notFound().build());
-                } else if (comuna != null) {
-                        log.info(">>> Buscando sucursal por comuna: {}", comuna);
-                        return ResponseEntity.ok(sucursalService.getByComunaNombre(comuna));
-                } else if (region != null) {
-                        log.info(">>> Buscando sucursal por región: {}", region);
-                        return ResponseEntity.ok(sucursalService.getByRegionNombre(region));
                 }
 
-                return ResponseEntity.internalServerError().body("Error en el URL query");
+                List<SucursalResponseDTO> results = sucursalService.searchByAttribute(id, nombre, comuna, region);
+
+                if (results.isEmpty()) {
+                        return ResponseEntity.notFound().build();
+                }
+
+                if (id != null || nombre != null) {
+                        return ResponseEntity.ok(results.get(0));
+                }
+
+                return ResponseEntity.ok(results);
         }
 
         @Operation(summary = "Obtener todas las sucursales registradas", description = "Obtiene una lista de todas las sucursales")

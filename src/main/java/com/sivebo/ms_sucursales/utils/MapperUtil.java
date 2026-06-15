@@ -1,5 +1,6 @@
-
 package com.sivebo.ms_sucursales.utils;
+
+import org.springframework.stereotype.Component;
 
 import com.sivebo.ms_sucursales.dto.response.ComunaResponseDTO;
 import com.sivebo.ms_sucursales.dto.response.RegionResponseDTO;
@@ -8,8 +9,10 @@ import com.sivebo.ms_sucursales.model.Comuna;
 import com.sivebo.ms_sucursales.model.Region;
 import com.sivebo.ms_sucursales.model.Sucursal;
 
-public class MapToDTO {
-        protected SucursalResponseDTO mapSucursalToDTO(Sucursal sucursal) {
+@Component
+public class MapperUtil {
+
+        public SucursalResponseDTO mapSucursalToDTO(Sucursal sucursal) {
                 return new SucursalResponseDTO(
                                 sucursal.getId(),
                                 sucursal.getNombre(),
@@ -19,14 +22,14 @@ public class MapToDTO {
                                 sucursal.getTelefonoContacto());
         }
 
-        protected ComunaResponseDTO mapComunaToDTO(Comuna comuna) {
+        public ComunaResponseDTO mapComunaToDTO(Comuna comuna) {
                 return new ComunaResponseDTO(
                                 comuna.getId(),
                                 comuna.getNombre(),
                                 comuna.getRegion().getNombre());
         }
 
-        protected RegionResponseDTO mapRegionToDTO(Region region) {
+        public RegionResponseDTO mapRegionToDTO(Region region) {
                 return new RegionResponseDTO(
                                 region.getId(),
                                 region.getNombre());

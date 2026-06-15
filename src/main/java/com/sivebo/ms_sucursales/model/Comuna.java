@@ -20,13 +20,13 @@ import lombok.NoArgsConstructor;
 public class Comuna {
 
         @Id
-        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         Long id;
 
-        @Column(name = "nombre", nullable=false, length=30, unique=true)
+        @Column(name = "nombre", nullable = false, length = 30, unique = true)
         String nombre;
 
         @ManyToOne
-        @JoinColumn(name = "id_region", nullable=false)
+        @JoinColumn(name = "id_region", nullable = false)
         Region region;
 }

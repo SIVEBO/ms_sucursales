@@ -3,6 +3,7 @@ package com.sivebo.ms_sucursales.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,6 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<Map<String, String>> handleDataIntegrity(DataIntegrityViolationException ex) {
+		log.error("Data integrity violation: {}", ex.getMessage());
+		Map<String, String> error = new HashMap<>();
+		error.put("error", "Error de integridad de datos: ya existe un registro con estos valores");
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {

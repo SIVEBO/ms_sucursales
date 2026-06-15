@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Sucursal {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
 	@Column(name = "nombre", nullable = false, length = 30, unique = true)
@@ -33,6 +33,6 @@ public class Sucursal {
 	@Column(name = "direccion_fisica", nullable = false, length = 100, unique = true)
 	String direccionFisica;
 
-	@Column(name = "telefono_contacto", nullable = false, unique = true)
+	@Column(name = "telefono_contacto", unique = true)
 	String telefonoContacto;
 }

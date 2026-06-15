@@ -16,12 +16,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "regiones")
 public class Region {
-        
 
         @Id
-        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         Long id;
 
-        @Column(name = "nombre", nullable = false, length=30, unique = true)
+        @Column(name = "nombre", nullable = false, length = 30, unique = true)
         String nombre;
 }

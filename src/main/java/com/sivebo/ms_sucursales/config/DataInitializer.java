@@ -73,7 +73,7 @@ public class DataInitializer implements CommandLineRunner {
                                         comunaRepository
                                                         .findByNombre("Santiago")
                                                         .orElseThrow(() -> new RuntimeException(
-                                                                        "Region no encontrada")),
+                                                                        "Comuna no encontrada")),
                                         "Catedral 989",
                                         "+56992315785");
 
@@ -81,9 +81,9 @@ public class DataInitializer implements CommandLineRunner {
                                         null,
                                         "Panoramico",
                                         comunaRepository
-                                                        .findByNombre("Santiago")
+                                                        .findByNombre("Providencia")
                                                         .orElseThrow(() -> new RuntimeException(
-                                                                        "Region no encontrada")),
+                                                                        "Comuna no encontrada")),
                                         "Av. Nueva Providencia 2092",
                                         "+56991234567");
 
