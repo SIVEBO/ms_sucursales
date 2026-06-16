@@ -11,6 +11,7 @@ import com.sivebo.ms_sucursales.dto.request.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
 import com.sivebo.ms_sucursales.exception.EntityNotFoundException;
 import com.sivebo.ms_sucursales.model.Comuna;
+import com.sivebo.ms_sucursales.model.EstadoSucursal;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.ComunaRepository;
 import com.sivebo.ms_sucursales.repository.SucursalRepository;
@@ -29,7 +30,7 @@ public class SucursalService {
         private final MapperUtil mapperUtil;
 
         public List<SucursalResponseDTO> getAll() {
-                return sucursalRepository.findAll()
+                return sucursalRepository.findByEstado(EstadoSucursal.ACTIVA)
                                 .stream()
                                 .map(mapperUtil::mapSucursalToDTO)
                                 .collect(Collectors.toList());
@@ -44,13 +45,13 @@ public class SucursalService {
         }
 
         public List<SucursalResponseDTO> getByComunaNombre(String nombreComuna) {
-                return sucursalRepository.findByComunaNombre(nombreComuna)
+                return sucursalRepository.findByComunaNombreAndEstado(nombreComuna, EstadoSucursal.ACTIVA)
                                 .stream().map(mapperUtil::mapSucursalToDTO)
                                 .collect(Collectors.toList());
         }
 
         public List<SucursalResponseDTO> getByRegionNombre(String nombreRegion) {
-                return sucursalRepository.findByRegionNombre(nombreRegion)
+                return sucursalRepository.findByRegionNombreAndEstado(nombreRegion, EstadoSucursal.ACTIVA)
                                 .stream().map(mapperUtil::mapSucursalToDTO)
                                 .collect(Collectors.toList());
         }
@@ -66,7 +67,8 @@ public class SucursalService {
                                                 dto.getNombre(),
                                                 comuna,
                                                 dto.getDireccionFisica(),
-                                                dto.getTelefonoContacto())));
+                                                dto.getTelefonoContacto(),
+                                                EstadoSucursal.ACTIVA)));
         }
 
         @Transactional
@@ -78,6 +80,14 @@ public class SucursalService {
                         sucursal.setComuna(comuna);
                         sucursal.setDireccionFisica(dto.getDireccionFisica());
                         sucursal.setTelefonoContacto(dto.getTelefonoContacto());
+                        return mapperUtil.mapSucursalToDTO(sucursalRepository.save(sucursal));
+                });
+        }
+
+        @Transactional
+        public Optional<SucursalResponseDTO> deactivate(Long id) {
+                return sucursalRepository.findById(id).map(sucursal -> {
+                        sucursal.setEstado(EstadoSucursal.INACTIVA);
                         return mapperUtil.mapSucursalToDTO(sucursalRepository.save(sucursal));
                 });
         }

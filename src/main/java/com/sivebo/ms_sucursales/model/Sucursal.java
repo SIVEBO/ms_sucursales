@@ -2,6 +2,8 @@ package com.sivebo.ms_sucursales.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,4 +37,8 @@ public class Sucursal {
 
 	@Column(name = "telefono_contacto", unique = true)
 	String telefonoContacto;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "estado", nullable = false)
+	EstadoSucursal estado = EstadoSucursal.ACTIVA;
 }

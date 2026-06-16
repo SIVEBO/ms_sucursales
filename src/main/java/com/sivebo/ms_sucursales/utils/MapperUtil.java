@@ -19,7 +19,8 @@ public class MapperUtil {
                                 sucursal.getComuna().getNombre(),
                                 sucursal.getComuna().getRegion().getNombre(),
                                 sucursal.getDireccionFisica(),
-                                sucursal.getTelefonoContacto());
+                                sucursal.getTelefonoContacto(),
+                                sucursal.getEstado());
         }
 
         public ComunaResponseDTO mapComunaToDTO(Comuna comuna) {

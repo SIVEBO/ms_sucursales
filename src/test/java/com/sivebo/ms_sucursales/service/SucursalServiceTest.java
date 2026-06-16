@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.model.EstadoSucursal;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.ComunaRepository;
 import com.sivebo.ms_sucursales.repository.SucursalRepository;
@@ -45,7 +46,7 @@ class SucursalServiceTest {
         sucursal.setId(1L);
         sucursal.setNombre("Test Sucursal");
 
-        responseDTO = new SucursalResponseDTO(1L, "Test Sucursal", "Test Comuna", "Test Region", "Dir", "123");
+        responseDTO = new SucursalResponseDTO(1L, "Test Sucursal", "Test Comuna", "Test Region", "Dir", "123", EstadoSucursal.ACTIVA);
     }
 
     @Test

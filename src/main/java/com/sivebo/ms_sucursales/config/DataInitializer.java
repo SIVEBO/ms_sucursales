@@ -3,12 +3,13 @@ package com.sivebo.ms_sucursales.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.model.Comuna;
+import com.sivebo.ms_sucursales.model.EstadoSucursal;
 import com.sivebo.ms_sucursales.model.Region;
-import com.sivebo.ms_sucursales.repository.SucursalRepository;
+import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.ComunaRepository;
 import com.sivebo.ms_sucursales.repository.RegionRepository;
+import com.sivebo.ms_sucursales.repository.SucursalRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +76,8 @@ public class DataInitializer implements CommandLineRunner {
                                                         .orElseThrow(() -> new RuntimeException(
                                                                         "Comuna no encontrada")),
                                         "Catedral 989",
-                                        "+56992315785");
+                                        "+56992315785",
+                                        EstadoSucursal.ACTIVA);
 
                         Sucursal sucursalPanoramico = new Sucursal(
                                         null,
@@ -85,7 +87,8 @@ public class DataInitializer implements CommandLineRunner {
                                                         .orElseThrow(() -> new RuntimeException(
                                                                         "Comuna no encontrada")),
                                         "Av. Nueva Providencia 2092",
-                                        "+56991234567");
+                                        "+56991234567",
+                                        EstadoSucursal.ACTIVA);
 
                         sucursalRepository.save(sucursalPlazaDeArmas);
                         sucursalRepository.save(sucursalPanoramico);

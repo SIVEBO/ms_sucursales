@@ -1,5 +1,6 @@
 package com.sivebo.ms_sucursales.dto.response;
 
+import com.sivebo.ms_sucursales.model.EstadoSucursal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public class SucursalResponseDTO {
         String nombreRegion;
         String direccionFisica;
         String telefonoContacto;
+        EstadoSucursal estado;
 }
