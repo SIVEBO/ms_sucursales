@@ -31,20 +31,48 @@ public class ComunaController {
 
         private final ComunaService comunaService;
 
-        @Operation(summary = "Obtener todas las comunas registradas", description = "Obtiene una lista de JSON de todas las comunas")
+        @Operation(
+                summary = "Obtener todas las comunas registradas",
+                description = "Obtiene una lista de JSON de todas las comunas"
+        )
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComunaResponseDTO.class)))
+                        @ApiResponse(
+                                responseCode = "200",
+                                description = "Comunas obtenidas exitosamente",
+                                content = @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ComunaResponseDTO.class)
+                                )
+                        )
         })
         @GetMapping
         public List<ComunaResponseDTO> getAll() {
                 return comunaService.getAll();
         }
 
-        @Operation(summary = "Obtener comunas por query", description = "Obtiene una lista o unidad de JSON de todas las comunas por query 'buscar?id=*', 'buscar?nombre=*' o 'buscar?region=*'")
+        @Operation(
+                summary = "Obtener comunas por query",
+                description = "Obtiene una lista o unidad de JSON de todas las comunas por query 'buscar?id=*', 'buscar?nombre=*' o 'buscar?region=*'"
+        )
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Comunas obtenidas exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComunaResponseDTO.class))),
-                        @ApiResponse(responseCode = "400", description = "Se proporcionó un número de parámetros inválido", content = @Content(mediaType = "application/json")),
-                        @ApiResponse(responseCode = "404", description = "No se encontraron comunas con los criterios indicados", content = @Content(mediaType = "application/json"))
+                        @ApiResponse(
+                                responseCode = "200",
+                                description = "Comunas obtenidas exitosamente",
+                                content = @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = ComunaResponseDTO.class)
+                                )
+                        ),
+                        @ApiResponse(
+                                responseCode = "400",
+                                description = "Se proporcionó un número de parámetros inválido",
+                                content = @Content(mediaType = "application/json")
+                        ),
+                        @ApiResponse(
+                                responseCode = "404",
+                                description = "No se encontraron comunas con los criterios indicados",
+                                content = @Content(mediaType = "application/json")
+                        )
         })
         @GetMapping("/buscar")
         public ResponseEntity<?> getByAtribute(
