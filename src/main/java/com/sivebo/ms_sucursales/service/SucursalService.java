@@ -29,6 +29,7 @@ public class SucursalService {
         private final ComunaRepository comunaRepository;
         private final MapperUtil mapperUtil;
 
+        @Transactional(readOnly = true)
         public List<SucursalResponseDTO> getAll() {
                 return sucursalRepository.findByEstado(EstadoSucursal.ACTIVA)
                                 .stream()
@@ -36,20 +37,24 @@ public class SucursalService {
                                 .collect(Collectors.toList());
         }
 
+        @Transactional(readOnly = true)
         public Optional<SucursalResponseDTO> getById(Long id) {
                 return sucursalRepository.findById(id).map(mapperUtil::mapSucursalToDTO);
         }
 
+        @Transactional(readOnly = true)
         public Optional<SucursalResponseDTO> getByNombre(String nombre) {
                 return sucursalRepository.findByNombre(nombre).map(mapperUtil::mapSucursalToDTO);
         }
 
+        @Transactional(readOnly = true)
         public List<SucursalResponseDTO> getByComunaNombre(String nombreComuna) {
                 return sucursalRepository.findByComunaNombreAndEstado(nombreComuna, EstadoSucursal.ACTIVA)
                                 .stream().map(mapperUtil::mapSucursalToDTO)
                                 .collect(Collectors.toList());
         }
 
+        @Transactional(readOnly = true)
         public List<SucursalResponseDTO> getByRegionNombre(String nombreRegion) {
                 return sucursalRepository.findByRegionNombreAndEstado(nombreRegion, EstadoSucursal.ACTIVA)
                                 .stream().map(mapperUtil::mapSucursalToDTO)
@@ -93,11 +98,11 @@ public class SucursalService {
         }
 
         @Transactional
-        public Boolean deleteById(Long id) {
-                if (!sucursalRepository.existsById(id))
-                        return false;
-                sucursalRepository.deleteById(id);
-                return true;
+        public Optional<SucursalResponseDTO> activate(Long id) {
+                return sucursalRepository.findById(id).map(sucursal -> {
+                        sucursal.setEstado(EstadoSucursal.ACTIVA);
+                        return mapperUtil.mapSucursalToDTO(sucursalRepository.save(sucursal));
+                });
         }
 
         @Transactional

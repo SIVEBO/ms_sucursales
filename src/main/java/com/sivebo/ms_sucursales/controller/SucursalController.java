@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -210,13 +209,17 @@ public class SucursalController {
         }
 
         @Operation(
-                summary = "Eliminar una sucursal",
-                description = "Elimina permanentemente una sucursal por su ID"
+                summary = "Activar una sucursal",
+                description = "Cambia el estado de una sucursal a ACTIVA"
         )
         @ApiResponses(value = {
                         @ApiResponse(
-                                responseCode = "204",
-                                description = "Sucursal eliminada exitosamente"
+                                responseCode = "200",
+                                description = "Sucursal activada exitosamente",
+                                content = @Content(
+                                        mediaType = "application/json",
+                                        schema = @Schema(implementation = SucursalResponseDTO.class)
+                                )
                         ),
                         @ApiResponse(
                                 responseCode = "404",
@@ -224,13 +227,10 @@ public class SucursalController {
                                 content = @Content(mediaType = "application/json")
                         )
         })
-        @DeleteMapping("/{id}")
-        public ResponseEntity<String> deleteById(@PathVariable Long id) {
-                if (sucursalService.deleteById(id)) {
-                        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Sucursal eliminada");
-                } else {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                        .body("Sucursal no encontrada o no se pudo eliminar");
-                }
+        @PatchMapping("/{id}/activar")
+        public ResponseEntity<SucursalResponseDTO> activate(@PathVariable Long id) {
+                return sucursalService.activate(id)
+                                .map(ResponseEntity::ok)
+                                .orElse(ResponseEntity.notFound().build());
         }
 }
