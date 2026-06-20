@@ -82,18 +82,18 @@ public class ComunaController {
 
                 List<String> params = new ArrayList<>(Arrays.asList(id, nombre, region));
 
-                int num_null = 0;
+                int numNull = 0;
                 for (String value : params) {
                         if (value == null)
-                                num_null++;
+                                numNull++;
                 }
-                int num_valid_params = params.size() - num_null;
-                if (num_valid_params != 1) {
+                int numValidParams = params.size() - numNull;
+                if (numValidParams != 1) {
                         log.info("Solo se permite un atributo de búsqueda a la vez pero ingresado {}",
-                                        num_valid_params);
+                                        numValidParams);
                         return ResponseEntity.badRequest().body(
                                         "Solo se permite un atributo de búsqueda a la vez pero ingresado "
-                                                        + num_valid_params);
+                                                        + numValidParams);
                 }
 
                 List<ComunaResponseDTO> results = comunaService.searchByAttribute(id, nombre, region);
