@@ -25,7 +25,7 @@ public class Sucursal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@Column(name = "nombre", nullable = false, length = 30, unique = true)
+	@Column(name = "nombre_sucursal", nullable = false, length = 30, unique = true)
 	String nombre;
 
 	@ManyToOne
