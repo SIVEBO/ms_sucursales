@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ms_sucursales
+    name: ms-sucursales
   profiles:
     active: dev
   datasource:
