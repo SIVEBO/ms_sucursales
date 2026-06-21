@@ -1,11 +1,10 @@
 package com.sivebo.ms_sucursales.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.sivebo.ms_sucursales.dto.request.SucursalRequestDTO;
 import com.sivebo.ms_sucursales.dto.response.SucursalResponseDTO;
+import com.sivebo.ms_sucursales.exception.EntityNotFoundException;
+import com.sivebo.ms_sucursales.model.Comuna;
 import com.sivebo.ms_sucursales.model.EstadoSucursal;
 import com.sivebo.ms_sucursales.model.Sucursal;
 import com.sivebo.ms_sucursales.repository.ComunaRepository;
@@ -59,5 +61,66 @@ class SucursalServiceTest {
         assertTrue(result.isPresent());
         assertEquals("Test Sucursal", result.get().getNombre());
         verify(sucursalRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void getById_noEncontrado_retornaVacio() {
+        when(sucursalRepository.findById(99L)).thenReturn(Optional.empty());
+
+        Optional<SucursalResponseDTO> result = sucursalService.getById(99L);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void getAll_retornaListaMapeada() {
+        when(sucursalRepository.findByEstado(EstadoSucursal.ACTIVA)).thenReturn(List.of(sucursal));
+        when(mapperUtil.mapSucursalToDTO(sucursal)).thenReturn(responseDTO);
+
+        List<SucursalResponseDTO> result = sucursalService.getAll();
+
+        assertEquals(1, result.size());
+        assertEquals("Test Sucursal", result.get(0).getNombre());
+    }
+
+    @Test
+    void create_comunaExistente_guardaYRetornaDTO() {
+        SucursalRequestDTO dto = new SucursalRequestDTO("Test Sucursal", "Santiago", "Calle 1", "123");
+        Comuna comuna = new Comuna();
+
+        when(comunaRepository.findByNombre("Santiago")).thenReturn(Optional.of(comuna));
+        when(sucursalRepository.save(any(Sucursal.class))).thenReturn(sucursal);
+        when(mapperUtil.mapSucursalToDTO(sucursal)).thenReturn(responseDTO);
+
+        SucursalResponseDTO result = sucursalService.create(dto);
+
+        assertNotNull(result);
+        assertEquals("Test Sucursal", result.getNombre());
+        verify(sucursalRepository).save(any(Sucursal.class));
+    }
+
+    @Test
+    void create_comunaNoExistente_lanzaEntityNotFoundException() {
+        SucursalRequestDTO dto = new SucursalRequestDTO("Test", "Inexistente", "Calle", null);
+
+        when(comunaRepository.findByNombre("Inexistente")).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> sucursalService.create(dto));
+        verify(sucursalRepository, never()).save(any());
+    }
+
+    @Test
+    void deactivate_encontrado_cambiaEstadoAInactiva() {
+        Sucursal inactiva = new Sucursal(1L, "Test Sucursal", null, "Dir", "123", EstadoSucursal.INACTIVA);
+        SucursalResponseDTO inactivaDTO = new SucursalResponseDTO(1L, "Test Sucursal", "Test Comuna", "Test Region", "Dir", "123", EstadoSucursal.INACTIVA);
+
+        when(sucursalRepository.findById(1L)).thenReturn(Optional.of(sucursal));
+        when(sucursalRepository.save(any(Sucursal.class))).thenReturn(inactiva);
+        when(mapperUtil.mapSucursalToDTO(inactiva)).thenReturn(inactivaDTO);
+
+        Optional<SucursalResponseDTO> result = sucursalService.deactivate(1L);
+
+        assertTrue(result.isPresent());
+        assertEquals(EstadoSucursal.INACTIVA, result.get().getEstado());
     }
 }
