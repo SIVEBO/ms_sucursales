@@ -52,7 +52,7 @@ class SucursalServiceTest {
     }
 
     @Test
-    void getById_ShouldReturnSucursal() {
+    void getByIdShouldReturnSucursal() {
         when(sucursalRepository.findById(1L)).thenReturn(Optional.of(sucursal));
         when(mapperUtil.mapSucursalToDTO(sucursal)).thenReturn(responseDTO);
 
@@ -64,7 +64,7 @@ class SucursalServiceTest {
     }
 
     @Test
-    void getById_noEncontrado_retornaVacio() {
+    void getByIdNoEncontradoRetornaVacio() {
         when(sucursalRepository.findById(99L)).thenReturn(Optional.empty());
 
         Optional<SucursalResponseDTO> result = sucursalService.getById(99L);
@@ -73,7 +73,7 @@ class SucursalServiceTest {
     }
 
     @Test
-    void getAll_retornaListaMapeada() {
+    void getAllRetornaListaMapeada() {
         when(sucursalRepository.findByEstado(EstadoSucursal.ACTIVA)).thenReturn(List.of(sucursal));
         when(mapperUtil.mapSucursalToDTO(sucursal)).thenReturn(responseDTO);
 
@@ -84,7 +84,7 @@ class SucursalServiceTest {
     }
 
     @Test
-    void create_comunaExistente_guardaYRetornaDTO() {
+    void createComunaExistenteGuardaYRetornaDTO() {
         SucursalRequestDTO dto = new SucursalRequestDTO("Test Sucursal", "Santiago", "Calle 1", "123");
         Comuna comuna = new Comuna();
 
@@ -100,7 +100,7 @@ class SucursalServiceTest {
     }
 
     @Test
-    void create_comunaNoExistente_lanzaEntityNotFoundException() {
+    void createComunaNoExistenteLanzaEntityNotFoundException() {
         SucursalRequestDTO dto = new SucursalRequestDTO("Test", "Inexistente", "Calle", null);
 
         when(comunaRepository.findByNombre("Inexistente")).thenReturn(Optional.empty());
@@ -110,7 +110,7 @@ class SucursalServiceTest {
     }
 
     @Test
-    void deactivate_encontrado_cambiaEstadoAInactiva() {
+    void deactivateEncontradoCambiaEstadoAInactiva() {
         Sucursal inactiva = new Sucursal(1L, "Test Sucursal", null, "Dir", "123", EstadoSucursal.INACTIVA);
         SucursalResponseDTO inactivaDTO = new SucursalResponseDTO(1L, "Test Sucursal", "Test Comuna", "Test Region", "Dir", "123", EstadoSucursal.INACTIVA);
 

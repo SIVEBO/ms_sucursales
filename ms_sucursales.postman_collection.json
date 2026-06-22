@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "ms_sucursales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "SIVEBO ms_sucursales — todos los endpoints, ruteados por el API gateway ({{baseUrl}})."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "idSucursal", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "SucursalController",
+      "item": [
+        {
+          "name": "Crear sucursal",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sucursal Central\",\n  \"nombreComuna\": \"Santiago\",\n  \"direccionFisica\": \"Av. Libertador 1234\",\n  \"telefonoContacto\": \"+56221234567\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/sucursales", "host": ["{{baseUrl}}"], "path": ["api","v1","sucursales"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var j;",
+                  "try { j = pm.response.json(); } catch (e) { j = null; }",
+                  "if (j && j.id !== undefined && j.id !== null) pm.collectionVariables.set(\"idSucursal\", j.id);",
+                  "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200,201]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar sucursales",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/sucursales", "host": ["{{baseUrl}}"], "path": ["api","v1","sucursales"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Buscar sucursal",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/sucursales/buscar?comuna=Santiago",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","sucursales","buscar"],
+              "query": [ { "key": "comuna", "value": "Santiago" } ]
+            }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Actualizar sucursal",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sucursal Central\",\n  \"nombreComuna\": \"Santiago\",\n  \"direccionFisica\": \"Av. Libertador 5678\",\n  \"telefonoContacto\": \"+56229876543\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/sucursales/{{idSucursal}}", "host": ["{{baseUrl}}"], "path": ["api","v1","sucursales","{{idSucursal}}"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Desactivar sucursal",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/sucursales/{{idSucursal}}/desactivar", "host": ["{{baseUrl}}"], "path": ["api","v1","sucursales","{{idSucursal}}","desactivar"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Activar sucursal",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/sucursales/{{idSucursal}}/activar", "host": ["{{baseUrl}}"], "path": ["api","v1","sucursales","{{idSucursal}}","activar"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RegionController",
+      "item": [
+        {
+          "name": "Listar regiones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/regiones", "host": ["{{baseUrl}}"], "path": ["api","v1","regiones"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Buscar region",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/regiones/buscar?nombre=Metropolitana",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","regiones","buscar"],
+              "query": [ { "key": "nombre", "value": "Metropolitana" } ]
+            }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ComunaController",
+      "item": [
+        {
+          "name": "Listar comunas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/api/v1/comunas", "host": ["{{baseUrl}}"], "path": ["api","v1","comunas"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        },
+        {
+          "name": "Buscar comuna",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/comunas/buscar?nombre=Santiago",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","v1","comunas","buscar"],
+              "query": [ { "key": "nombre", "value": "Santiago" } ]
+            }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": [ "pm.test(\"status ok\", function () { pm.expect(pm.response.code).to.be.oneOf([200]); });" ] } }
+          ]
+        }
+      ]
+    }
+  ]
+}
