@@ -27,6 +27,6 @@ public class Comuna {
         String nombre;
 
         @ManyToOne
-        @JoinColumn(name = "id_region", nullable = false)
+        @JoinColumn(name = "nombre_region", referencedColumnName = "nombre_region", nullable = false)
         Region region;
 }
