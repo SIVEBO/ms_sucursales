@@ -29,7 +29,7 @@ public class Sucursal {
 	String nombre;
 
 	@ManyToOne
-	@JoinColumn(name = "id_comuna", nullable = false)
+	@JoinColumn(name = "nombre_comuna", referencedColumnName = "nombre_comuna", nullable = false)
 	Comuna comuna;
 
 	@Column(name = "direccion_fisica", nullable = false, length = 100, unique = true)
