@@ -1,20 +1,19 @@
 server:
-  port: ${PORT:${SERVER_PORT:8080}}
+  port: ${SERVER_PORT:8082}
 
 spring:
   application:
     name: ms-sucursales
-  profiles:
-    active: dev
   datasource:
-    url: jdbc:mariadb://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
+    url: ${DB_URL:jdbc:mariadb://localhost:3306/db_ms_sucursales?createDatabaseIfNotExist=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:false}
     properties:
       hibernate:
         format:
@@ -27,7 +26,7 @@ eureka:
 
 logging:
   level:
-    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.bind: ${HIBERNATE_BIND_LOG:OFF}
 
 springdoc:
   api-docs:
