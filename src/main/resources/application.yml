@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: ms-sucursales
+  main:
+    web-application-type: servlet
   datasource:
     url: ${DB_URL:jdbc:mariadb://localhost:3306/db_ms_sucursales?createDatabaseIfNotExist=true}
     username: ${DB_USERNAME:root}
